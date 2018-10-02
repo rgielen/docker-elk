@@ -2,9 +2,7 @@
 COMPONENT ([\w._\/%-]+)
 COMPID postfix\/%{COMPONENT:component}(?:\[%{NUMBER:pid}\])?
 POSTFIX (?:%{SYSLOGTIMESTAMP:timestamp}|%{TIMESTAMP_ISO8601:timestamp8601}) (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} %{COMPID}:
-
 # Milter
-HELO (?:\[%{IP:helo}\]|%{HOST:helo}|%{DATA:helo})
 
 MILTERCONNECT %{QUEUEID:qid}: milter-reject: CONNECT from %{RELAY:relay}: %{GREEDYDATA:milter_reason}; proto=%{WORD:proto}
 MILTERUNKNOWN %{QUEUEID:qid}: milter-reject: UNKNOWN from %{RELAY:relay}: %{GREEDYDATA:milter_reason}; proto=%{WORD:proto}
@@ -13,9 +11,8 @@ MILTERMAIL %{QUEUEID:qid}: milter-reject: MAIL from %{RELAY:relay}: %{GREEDYDATA
 MILTERHELO %{QUEUEID:qid}: milter-reject: HELO from %{RELAY:relay}: %{GREEDYDATA:milter_reason}; proto=%{WORD:proto} helo=<%{HELO}>
 MILTERRCPT %{QUEUEID:qid}: milter-reject: RCPT from %{RELAY:relay}: %{GREEDYDATA:milter_reason}; from=<%{EMAILADDRESS:from}> to=<%{EMAILADDRESS:to}> proto=%{WORD:proto} helo=<%{HELO}>
 MILTERENDOFMESSAGE %{QUEUEID:qid}: milter-reject: END-OF-MESSAGE from %{RELAY:relay}: %{GREEDYDATA:milter_reason}; from=<%{EMAILADDRESS:from}> to=<%{EMAILADDRESS:to}> proto=%{WORD:proto} helo=<%{HELO}>
-
 # Postfix stuff
-HELO (?:\[%{IP:helo}\]|%{HOST:helo}|%{DATA:helo})
+HELO (?:\[%{IP:helo}\]|%{HOSTNAME:helo}|%{DATA:helo})
 QUEUEID (?:[A-F0-9]+|NOQUEUE)
 EMAILADDRESSPART [a-zA-Z0-9_.+-=:~]+
 EMAILADDRESS %{EMAILADDRESSPART:local}@%{EMAILADDRESSPART:remote}
@@ -73,10 +70,11 @@ DOVECMD anvil|auth|config|log|master
 DOVEMISC %{DOVECMD:command}: %{GREEDYDATA:reason}
 DOVELOGIN imap-login: %{DATA:action}:(?: user=<(%{DATA:user})?>, (method=%{DATA:loginmethod}, )?rip=%{IP:rip}, lip=%{IP:lip},( mpid=%{NUMBER:mpid},( %{DATA:sectype},)?| %{DATA:securesession},)? session=<%{DATA:session}>| %{GREEDYDATA:reason})
 DOVELDA lda\((%{DATA:user})?\):( %{DATA:action}:)? msgid=(?:<%{DATA:mesgid}@%{DATA:domain}>|%{DATA:mesgid}):( saved mail to| stored mail into mailbox) .*?%{DATA:folder}.*?
+DOVELMTP lmtp\((%{DATA:user})?\):( %{DATA:action}:)? msgid=(?:<%{DATA:mesgid}@%{DATA:domain}>|%{DATA:mesgid}):( saved mail to| stored mail into mailbox) '%{DATA:folder}'.*?
 DOVEAUTH auth-worker\(%{NUMBER:pid}\): pam\((?:%{USERNAME:user}|%{EMAILADDRESS:user}),%{IP:ip}\): %{GREEDYDATA:reason}
 
 # Dovecot wrap em up
-DOVECOT (?:%{SYSLOGTIMESTAMP:timestamp}|%{TIMESTAMP_ISO8601:timestamp8601}) (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} dovecot: (%{DOVEIMAP}|%{DOVELOGIN}|%{DOVELDA}|%{DOVEAUTH}|%{DOVEMISC})
+DOVECOT (?:%{SYSLOGTIMESTAMP:timestamp}|%{TIMESTAMP_ISO8601:timestamp8601}) (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} dovecot: (%{DOVEIMAP}|%{DOVELOGIN}|%{DOVELDA}|%{DOVELMTP}|%{DOVEAUTH}|%{DOVEMISC})
 
 # Postfix wrap em up
 PF %{POSTFIX} (?:%{POSTFIXSMTP}|%{POSTFIXANVIL}|%{POSTFIXQMGR}|%{POSTFIXBOUNCE}|%{POSTFIXCLEANUP}|%{POSTFIXSMTPD}|%{POSTFIXREWRITE})
