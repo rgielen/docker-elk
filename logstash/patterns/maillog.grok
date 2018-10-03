@@ -64,6 +64,9 @@ POSTFIXANVIL statistics: %{GREEDYDATA:reason}
 # postfix/trivial-rewrite
 POSTFIXREWRITE warning: do not list domain %{DATA:domain} in BOTH mydestination and virtual_alias_domains
 
+# Postfix wrap em up
+PF %{POSTFIX} (?:%{POSTFIXSMTP}|%{POSTFIXANVIL}|%{POSTFIXQMGR}|%{POSTFIXBOUNCE}|%{POSTFIXCLEANUP}|%{POSTFIXSMTPD}|%{POSTFIXREWRITE})
+
 # Dovecot
 DOVEIMAP imap\(%{DATA:user}\): %{DATA:reason} in=%{NUMBER:inbytes} out=%{NUMBER:outbytes}
 DOVECMD anvil|auth|config|log|master
@@ -75,6 +78,3 @@ DOVEAUTH auth-worker\(%{NUMBER:pid}\): pam\((?:%{USERNAME:user}|%{EMAILADDRESS:u
 
 # Dovecot wrap em up
 DOVECOT (?:%{SYSLOGTIMESTAMP:timestamp}|%{TIMESTAMP_ISO8601:timestamp8601}) (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} dovecot: (%{DOVEIMAP}|%{DOVELOGIN}|%{DOVELDA}|%{DOVELMTP}|%{DOVEAUTH}|%{DOVEMISC})
-
-# Postfix wrap em up
-PF %{POSTFIX} (?:%{POSTFIXSMTP}|%{POSTFIXANVIL}|%{POSTFIXQMGR}|%{POSTFIXBOUNCE}|%{POSTFIXCLEANUP}|%{POSTFIXSMTPD}|%{POSTFIXREWRITE})
