@@ -136,7 +136,9 @@ DOVECMD anvil|auth|config|log|master
 DOVEMISC %{DOVECMD:command}: %{GREEDYDATA:reason}
 DOVELOGIN imap-login: %{DATA:action}:(?: user=<(%{DATA:user})?>, (method=%{DATA:loginmethod}, )?rip=%{IP:rip}, lip=%{IP:lip},( mpid=%{NUMBER:mpid},( %{DATA:sectype},)?| %{DATA:securesession},)? session=<%{DATA:session}>| %{GREEDYDATA:reason})
 DOVELDA lda\((%{DATA:user})?\):( %{DATA:action}:)? msgid=(?:<%{DATA:mesgid}@%{DATA:domain}>|%{DATA:mesgid}):( saved mail to| stored mail into mailbox) .*?%{DATA:folder}.*?
-DOVELMTP lmtp\((%{DATA:user})?\):( %{DATA:session}:)( %{DATA:action}:)? msgid=(?:<%{DATA:mesgid}@%{DATA:domain}>|%{DATA:mesgid}):( saved mail to| stored mail into mailbox) '%{DATA:folder}'.*?
+DOVELMTP_STORE lmtp\((%{DATA:user})?\):( %{DATA:session}:)( %{DATA:action}:)? msgid=(?:<%{DATA:mesgid}@%{DATA:domain}>|%{DATA:mesgid}):( saved mail to| stored mail into mailbox) '%{DATA:folder}'.*?
+DOVELMTP_CONNECT lmtp\((%{DATA:pid})?\): (%{DATA:action}) from %{GREEDYDATA:origin}
+DOVELMTP (%{DOVELMTP_STORE}|%{DOVELMTP_CONNECT})
 DOVEAUTH auth-worker\(%{NUMBER:pid}\): pam\((?:%{USERNAME:user}|%{EMAILADDRESS:user}),%{IP:ip}\): %{GREEDYDATA:reason}
 
 # Dovecot wrap em up
