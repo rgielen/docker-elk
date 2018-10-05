@@ -64,8 +64,7 @@ services:
     depends_on:
       - elasticsearch
       - kibana
-    restart:
-      - unless-stopped
+    restart: unless-stopped
 
 networks:
 
