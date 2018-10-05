@@ -47,7 +47,7 @@ filebeat.modules:
 - module: apache2
 # Access logs
   access:
-  enabled: true
+    enabled: true
 
 # Set custom paths for the log files. If left empty,
 # Filebeat will choose the paths depending on your OS.
@@ -59,7 +59,7 @@ filebeat.modules:
 
 # Error logs
   error:
-  enabled: true
+    enabled: true
 
 # Set custom paths for the log files. If left empty,
 # Filebeat will choose the paths depending on your OS.
@@ -715,7 +715,9 @@ filebeat.inputs:
     #  stream: all # can be all, stdout or stderr
     ids:
       - '*'
-
+    json.keys_under_root: true
+    json.message_key: log
+    
     #========================== Filebeat autodiscover ==============================
 
     # Autodiscover allows you to detect changes in the system and spawn new modules
@@ -940,6 +942,8 @@ filebeat.inputs:
 processors:
 - add_docker_metadata:
     host: "unix:///var/run/docker.sock"
+- decode_json_fields:
+    fields: ["log"]
 #    match_fields: ["system.process.cgroup.id"]
 #    match_pids: ["process.pid", "process.ppid"]
 #    match_source: true
