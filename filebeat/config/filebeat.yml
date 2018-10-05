@@ -704,17 +704,20 @@ filebeat.inputs:
 
     #------------------------------ Docker input --------------------------------
     # Experimental: Docker input reads and parses `json-file` logs from Docker
-- type: docker
+#- type: docker
+- type: log
   enabled: true
 
     # Combine partial lines flagged by `json-file` format
     #combine_partials: true
 
     # Use this to read from all containers, replace * with a container id to read from one:
-  containers:
+#  containers:
     #  stream: all # can be all, stdout or stderr
-    ids:
-      - '*'
+#    ids:
+#      - '*'
+  paths:
+  - '/var/lib/docker/containers/*/*.log'
 
   json.keys_under_root: true
   json.add_error_key: true
