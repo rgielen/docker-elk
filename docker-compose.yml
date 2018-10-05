@@ -55,6 +55,7 @@ services:
       context: filebeat/
       args:
         ELK_VERSION: $ELK_VERSION
+    user: root
     volumes:
       - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/log/:/var/log/:ro
