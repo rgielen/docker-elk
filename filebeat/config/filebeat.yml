@@ -992,7 +992,7 @@ output.elasticsearch:
   # Scheme and port can be left out and will be set to the default (http and 9200)
   # In case you specify and additional path, the scheme is required: http://localhost:9200/path
   # IPv6 addresses should always be defined as: https://[2001:db8::1]:9200
-  hosts: ["localhost:9200"]
+  hosts: ["elasticsearch:9200"]
 
     # Set gzip compression level.
     #compression_level: 0
@@ -1548,7 +1548,7 @@ output.elasticsearch:
 # These settings control loading the sample dashboards to the Kibana index. Loading
 # the dashboards are disabled by default and can be enabled either by setting the
 # options here, or by using the `-setup` CLI flag or the `setup` command.
-#setup.dashboards.enabled: false
+setup.dashboards.enabled: true
 
 # The directory from where to read the dashboards. The default is the `kibana`
 # folder in the home path.
@@ -1650,6 +1650,7 @@ setup.template.settings:
 # Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
 # This requires a Kibana endpoint configuration.
 setup.kibana:
+  host: "kibana:5601"
 
 # Kibana Host
 # Scheme and port can be left out and will be set to the default (http and 5601)
