@@ -13,4 +13,3 @@ RUN mkdir -p /etc/logstash/patterns.d
 COPY --from=postfix-grok-patterns /postfix-grok-patterns/*.grok /etc/logstash/patterns.d/
 
 USER logstash
-COPY --from=postfix-grok-patterns /postfix-grok-patterns/*.grok /etc/logstash/patterns.d/
