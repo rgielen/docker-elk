@@ -705,7 +705,7 @@ filebeat.inputs:
     #------------------------------ Docker input --------------------------------
     # Experimental: Docker input reads and parses `json-file` logs from Docker
 - type: docker
-  enabled: false
+  enabled: true
 
     # Combine partial lines flagged by `json-file` format
     #combine_partials: true
