@@ -704,8 +704,8 @@ filebeat.inputs:
 
     #------------------------------ Docker input --------------------------------
     # Experimental: Docker input reads and parses `json-file` logs from Docker
-    #- type: docker
-    #enabled: false
+- type: docker
+  enabled: false
 
     # Combine partial lines flagged by `json-file` format
     #combine_partials: true
@@ -713,8 +713,8 @@ filebeat.inputs:
     # Use this to read from all containers, replace * with a container id to read from one:
     #containers:
     #  stream: all # can be all, stdout or stderr
-    #  ids:
-    #    - '*'
+  ids:
+    - '*'
 
     #========================== Filebeat autodiscover ==============================
 
@@ -937,9 +937,9 @@ filebeat.inputs:
 # The following example enriches each event with docker metadata, it matches
 # given fields to an existing container id and adds info from that container:
 #
-#processors:
-#- add_docker_metadata:
-#    host: "unix:///var/run/docker.sock"
+processors:
+  - add_docker_metadata:
+    host: "unix:///var/run/docker.sock"
 #    match_fields: ["system.process.cgroup.id"]
 #    match_pids: ["process.pid", "process.ppid"]
 #    match_source: true
@@ -978,6 +978,8 @@ filebeat.inputs:
 # The cloud.auth setting overwrites the `output.elasticsearch.username` and
 # `output.elasticsearch.password` settings. The format is `<user>:<pass>`.
 #cloud.auth:
+
+
 
 #================================ Outputs ======================================
 
