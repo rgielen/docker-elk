@@ -945,6 +945,8 @@ filebeat.inputs:
 processors:
 - add_docker_metadata:
     host: "unix:///var/run/docker.sock"
+- decode_json_fields:
+    fields: ["log"]
 #    match_fields: ["system.process.cgroup.id"]
 #    match_pids: ["process.pid", "process.ppid"]
 #    match_source: true
