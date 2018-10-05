@@ -716,6 +716,10 @@ filebeat.inputs:
     ids:
       - '*'
 
+  json.keys_under_root: true
+  json.add_error_key: true
+  json.message_key: log
+
     #========================== Filebeat autodiscover ==============================
 
     # Autodiscover allows you to detect changes in the system and spawn new modules
