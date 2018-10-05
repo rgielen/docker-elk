@@ -1,4 +1,4 @@
-version: '2'
+version: '3.7'
 
 services:
 
@@ -64,6 +64,8 @@ services:
     depends_on:
       - elasticsearch
       - kibana
+    restart:
+      - unless-stopped
 
 networks:
 
