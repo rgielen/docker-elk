@@ -938,7 +938,7 @@ filebeat.inputs:
 # given fields to an existing container id and adds info from that container:
 #
 processors:
-  - add_docker_metadata:
+- add_docker_metadata:
     host: "unix:///var/run/docker.sock"
 #    match_fields: ["system.process.cgroup.id"]
 #    match_pids: ["process.pid", "process.ppid"]
